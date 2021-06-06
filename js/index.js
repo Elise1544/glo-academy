@@ -52,6 +52,9 @@ let appData = {
 
     for (let i = 0; i < 2; i++) {
       let key = prompt('Введите обязательную статью расходов?');
+      while (isNumber(key)) {
+        key = prompt('Введите обязательную статью расходов?');
+      }
       let value = +prompt('Во сколько это обойдется?');
       while (!isNumber(value)) {
         value = +prompt('Во сколько это обойдется?');
