@@ -1,4 +1,19 @@
 'use strict';
+const startButton = document.getElementById('start');
+const incomeAdd = document.getElementsByTagName('button')[0];
+const expensesAdd = document.getElementsByTagName('button')[1];
+const checkbox = document.querySelector('#deposit-check');
+const additonalIncomeItems = document.querySelectorAll('.additional_income-item');
+const outputs = document.querySelectorAll('[class*="value"]');
+const salary = document.querySelector('.salary-amount');
+const incomeTitle = document.querySelector('.income-items').querySelector('.income-title');
+const incomeAmount = document.querySelector('.income-amount');
+const expensesTitle = document.querySelector('.expenses-items').querySelector('.expenses-title');
+const expensesAmount = document.querySelector('.expenses-amount');
+const additonalExpensesItem = document.querySelector('.additional_expenses-item');
+const target = document.querySelector('.target-amount');
+const range = document.querySelector('.period-select');
+
 let money;
 function start() {
   do {
