@@ -13,6 +13,9 @@ const periodSelect = document.querySelector('.period-select');
 const periodAmount = document.querySelector('.period-amount');
 const outputs = document.querySelectorAll('[class*="value"]');
 
+const textInputs = document.querySelectorAll('*[placeholder="Наименование"]');
+const numberInputs = document.querySelectorAll('*[placeholder="Сумма"]');
+
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -61,6 +64,9 @@ let appData = {
   addExpensesBlock: function () {
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesAdd);
+    cloneExpensesItem.querySelectorAll('input').forEach(function (element) {
+      element.value = '';
+    });
     expensesItems = document.querySelectorAll('.expenses-items');
 
     if (expensesItems.length === 3) {
@@ -70,6 +76,9 @@ let appData = {
   addIncomeBlock: function () {
     let cloneIncomeItem = incomeItems[0].cloneNode(true);
     incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomeAdd);
+    cloneIncomeItem.querySelectorAll('input').forEach(function (element) {
+      element.value = '';
+    });
     incomeItems = document.querySelectorAll('.income-items');
 
     if (incomeItems.length === 3) {
@@ -168,6 +177,16 @@ salary.addEventListener('change', function () {
 expensesAdd.addEventListener('click', appData.addExpensesBlock);
 incomeAdd.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', appData.getInfoPeriod);
+textInputs.forEach(function (element) {
+  element.addEventListener('input', () => {
+    element.value = element.value.replace(/[^А-я-\s\,\?\.\!]/, '');
+  });
+});
+numberInputs.forEach(function (element) {
+  element.addEventListener('input', () => {
+    element.value = element.value.replace(/[^0-9]/, '');
+  });
+});
 
 // function showObjectData(obj) {
 //   console.log(`Наша программа включает в себя данные:`)
