@@ -155,8 +155,9 @@ let appData = {
 startButton.disabled = true;
 startButton.style.cursor = 'not-allowed';
 
-salary.addEventListener('change', function () {
-  if (salary.value !== '') {
+salary.addEventListener('input', function () {
+  let matchValue = salary.value = salary.value.replace(/[^0-9]/, '');
+  if (salary.value !== '' && salary.value.match(matchValue)) {
     startButton.disabled = false;
     startButton.style.cursor = 'pointer';
     startButton.addEventListener('click', appData.start);
