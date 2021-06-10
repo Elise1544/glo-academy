@@ -13,9 +13,6 @@ const periodSelect = document.querySelector('.period-select');
 const periodAmount = document.querySelector('.period-amount');
 const outputs = document.querySelectorAll('[class*="value"]');
 
-const textInputs = document.querySelectorAll('*[placeholder="Наименование"]');
-const numberInputs = document.querySelectorAll('*[placeholder="Сумма"]');
-
 function isNumber(n) {
   return !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -69,6 +66,9 @@ let appData = {
     });
     expensesItems = document.querySelectorAll('.expenses-items');
 
+    appData.getValidateTextInput();
+    appData.getValidateNumberInput();
+
     if (expensesItems.length === 3) {
       expensesAdd.style.display = 'none';
     }
@@ -80,6 +80,9 @@ let appData = {
       element.value = '';
     });
     incomeItems = document.querySelectorAll('.income-items');
+
+    appData.getValidateTextInput();
+    appData.getValidateNumberInput();
 
     if (incomeItems.length === 3) {
       incomeAdd.style.display = 'none';
@@ -158,14 +161,31 @@ let appData = {
   },
   getInfoPeriod: function () {
     periodAmount.textContent = periodSelect.value;
+  },
+  getValidateTextInput: function () {
+    let textInputs = document.querySelectorAll('*[placeholder="Наименование"]');
+    textInputs.forEach(function (element) {
+      element.addEventListener('input', function () {
+        element.value = element.value.replace(/[^А-я-\s\,\?\.\!]/, '');
+      });
+    });
+  },
+  getValidateNumberInput: function () {
+    let numberInputs = document.querySelectorAll('*[placeholder="Сумма"]');
+    numberInputs.forEach(function (element) {
+      element.addEventListener('input', function () {
+        element.value = element.value.replace(/[^0-9]/, '');
+      });
+    });
   }
 };
 
 startButton.disabled = true;
 startButton.style.cursor = 'not-allowed';
 
-salary.addEventListener('change', function () {
-  if (salary.value !== '') {
+salary.addEventListener('input', function () {
+  let matchValue = salary.value = salary.value.replace(/[^0-9]/, '');
+  if (salary.value !== '' && salary.value.match(matchValue)) {
     startButton.disabled = false;
     startButton.style.cursor = 'pointer';
     startButton.addEventListener('click', appData.start);
@@ -177,16 +197,8 @@ salary.addEventListener('change', function () {
 expensesAdd.addEventListener('click', appData.addExpensesBlock);
 incomeAdd.addEventListener('click', appData.addIncomeBlock);
 periodSelect.addEventListener('input', appData.getInfoPeriod);
-textInputs.forEach(function (element) {
-  element.addEventListener('input', () => {
-    element.value = element.value.replace(/[^А-я-\s\,\?\.\!]/, '');
-  });
-});
-numberInputs.forEach(function (element) {
-  element.addEventListener('input', () => {
-    element.value = element.value.replace(/[^0-9]/, '');
-  });
-});
+appData.getValidateTextInput();
+appData.getValidateNumberInput();
 
 // function showObjectData(obj) {
 //   console.log(`Наша программа включает в себя данные:`)
