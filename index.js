@@ -1,11 +1,11 @@
 'use strict';
 
-const DomElement = function () {
-  this.selector = '.class';
-  this.height = '20%';
-  this.width = '100%';
-  this.bg = 'blue';
-  this.fontSize = '45px';
+const DomElement = function (className, height, width, background, fontSize) {
+  this.selector = className;
+  this.height = height;
+  this.width = width;
+  this.bg = background;
+  this.fontSize = fontSize;
 };
 DomElement.prototype.createElement = function () {
   console.log(this);
@@ -26,5 +26,5 @@ DomElement.prototype.createElement = function () {
 };
 
 
-const domElement = new DomElement();
+const domElement = new DomElement('#id', '30%', '50%', 'red', '45px');
 domElement.createElement();
