@@ -1,18 +1,19 @@
 'use strict';
 let newElement;
 
-const DomElement = function () {
-  this.selector = '.class';
-  this.height = '100px';
-  this.width = '100px';
-  this.bg = 'blue';
-  this.fontSize = '23px';
-  this.position = 'absolute';
-  this.top = 250;
-  this.left = 600;
-  this.textAlign = 'center';
+const DomElement = function (className, height, width, background, fontSize, position, top, left, textAlign) {
+  this.selector = className;
+  this.height = height;
+  this.width = width;
+  this.bg = background;
+  this.fontSize = fontSize;
+  this.position = position;
+  this.top = top;
+  this.left = left;
+  this.textAlign = textAlign;
 };
 DomElement.prototype.createElement = function () {
+  console.log(this);
   if (this.selector[0] === '.') {
     newElement = document.createElement('div');
     newElement.classList.add(this.selector.slice(1));
@@ -51,7 +52,7 @@ DomElement.prototype.move = function () {
 };
 
 document.addEventListener('DOMContentLoaded', function () {
-  const domElement = new DomElement();
+  const domElement = new DomElement('.class', '100px', '100px', 'blue', '23px', 'absolute', 250, 600, 'center');
   domElement.createElement();
   domElement.move();
 });
