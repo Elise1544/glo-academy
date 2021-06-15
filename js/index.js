@@ -35,12 +35,9 @@ class AppData {
   start() {
     this.budget = +salary.value;
 
-    this.getIncome();
-    this.getExpenses();
-    this.getExpensesMonth();
-    this.getIncomeMonth();
-    this.getAddExpenses();
-    this.getAddIncome();
+    this.getExpInc();
+    this.getAddExpInc(additonalExpensesItem, this.addExpenses);
+    this.getAddExpInc(additonalIncomeItems, this.addIncome);
     this.getBudget();
 
     this.showResult();
@@ -49,7 +46,7 @@ class AppData {
   reset() {
     this.getUnblockInputs();
 
-    allInputs.forEach(function (allInput) {
+    allInputs.forEach((allInput) => {
       allInput.value = ``;
     });
 
@@ -88,88 +85,58 @@ class AppData {
     });
 
   };
-  addExpensesBlock() {
-    let cloneExpensesItem = expensesItems[0].cloneNode(true);
-    expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesAdd);
-    cloneExpensesItem.querySelectorAll(`input`).forEach(function (element) {
+  addExpIncBlocks(item, button) {
+    let cloneItem = item[0].cloneNode(true);
+    item[0].parentNode.insertBefore(cloneItem, button);
+    cloneItem.querySelectorAll(`input`).forEach((element) => {
       element.value = ``;
     });
+    incomeItems = document.querySelectorAll(`.income-items`);
     expensesItems = document.querySelectorAll(`.expenses-items`);
     textInputs = document.querySelectorAll(`input[type=text]`);
     allInputs = document.querySelectorAll(`input`);
 
-    if (expensesItems.length === 3) {
-      expensesAdd.style.display = `none`;
-    }
-    this.getValidateTextInput();
-    this.getValidateNumberInput();
-  };
-  addIncomeBlock() {
-    let cloneIncomeItem = incomeItems[0].cloneNode(true);
-    incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomeAdd);
-    cloneIncomeItem.querySelectorAll(`input`).forEach(function (element) {
-      element.value = ``;
-    });
-    incomeItems = document.querySelectorAll(`.income-items`);
-    textInputs = document.querySelectorAll(`input[type=text]`);
-    allInputs = document.querySelectorAll(`input`);
-
-    if (incomeItems.length === 3) {
-      incomeAdd.style.display = `none`;
+    if (item.length === 2) {
+      button.style.display = `none`;
     }
 
     this.getValidateTextInput();
     this.getValidateNumberInput();
   };
+  getExpInc() {
+    const count = (item) => {
+      const startStr = item.className.split('-')[0];
+      const itemTitle = item.querySelector(`.${startStr}-title`).value;
+      const itemAmount = +item.querySelector(`.${startStr}-amount`).value;
+      if (itemTitle !== `` && itemAmount !== ``) {
+        this[startStr][itemTitle] = itemAmount;
+      }
+    }
 
-  getExpenses() {
-    expensesItems.forEach( (item) => {
-      const itemExpenses = item.querySelector(`.expenses-title`).value;
-      const cashExpenses = +item.querySelector(`.expenses-amount`).value;
-      if (itemExpenses !== `` && cashExpenses !== ``) {
-        this.expenses[itemExpenses] = cashExpenses;
-      }
-    })
+    expensesItems.forEach(count);
+    incomeItems.forEach(count);
+
+    for (let key in this.income) {
+      this.incomeMonth += this.income[key];
+    }
+
+    for (let key in this.expenses) {
+      this.expensesMonth += this.expenses[key];
+    }
   };
-  getIncome() {
-    incomeItems.forEach( (item) => {
-      const itemIncome = item.querySelector(`.income-title`).value;
-      const cashIncome = +item.querySelector(`.income-amount`).value;
-      if (itemIncome !== `` && cashIncome !== ``) {
-        this.income[itemIncome] = cashIncome;
+  getAddExpInc(additionalItem, array) {
+    if (additionalItem === additonalExpensesItem) {
+      additionalItem = additonalExpensesItem.value.split(`,`);
+    }  
+    additionalItem.forEach((item) => {
+      if (additionalItem === additonalIncomeItems) {
+        item = item.value.trim();
       }
-    })
-  };
-  getAddExpenses() {
-    const addExpenses = additonalExpensesItem.value.split(`,`);
-    addExpenses.forEach( (item) => {
       item = item.trim();
       if (item !== ``) {
-        this.addExpenses.push(item);
+        array.push(item);
       }
     })
-  };
-  getAddIncome() {
-    additonalIncomeItems.forEach( (item) => {
-      const itemValue = item.value.trim();
-      if (itemValue !== ``) {
-        this.addIncome.push(itemValue);
-      }
-    })
-  };
-  getExpensesMonth() {
-    let sum = 0;
-    for (let key in this.expenses) {
-      sum += this.expenses[key];
-    }
-    this.expensesMonth = sum;
-  };
-  getIncomeMonth() {
-    let sum = 0;
-    for (let key in this.income) {
-      sum += this.income[key];
-    }
-    this.incomeMonth = sum;
   };
   getBudget() {
     this.budgetMonth = this.budget + this.incomeMonth - this.expensesMonth;
@@ -198,7 +165,7 @@ class AppData {
   };
   getValidateTextInput() {
     let titleInputs = document.querySelectorAll(`*[placeholder="Наименование"]`);
-    titleInputs.forEach(function (element) {
+    titleInputs.forEach((element) => {
       element.addEventListener(`input`, function () {
         element.value = element.value.replace(/[^А-я-\s\,\?\.\!]/, ``);
       });
@@ -206,14 +173,14 @@ class AppData {
   };
   getValidateNumberInput() {
     let numberInputs = document.querySelectorAll(`*[placeholder="Сумма"]`);
-    numberInputs.forEach(function (element) {
+    numberInputs.forEach((element) => {
       element.addEventListener(`input`, function () {
         element.value = element.value.replace(/[^0-9]/, ``);
       });
     });
   };
   getBlockInputs() {
-    textInputs.forEach(function (textInput) {
+    textInputs.forEach((textInput) => {
       textInput.disabled = true;
     });
     incomeAdd.disabled = true;
@@ -223,7 +190,7 @@ class AppData {
     resetButton.style.display = `block`;
   };
   getUnblockInputs() {
-    allInputs.forEach(function (allInput) {
+    allInputs.forEach((allInput) => {
       allInput.disabled = false;
     });
     incomeAdd.disabled = false;
@@ -262,8 +229,14 @@ class AppData {
     });
     startButton.addEventListener(`click`, this.start.bind(this));
     resetButton.addEventListener(`click`, this.reset.bind(this));
-    expensesAdd.addEventListener(`click`, this.addExpensesBlock.bind(this));
-    incomeAdd.addEventListener(`click`, this.addIncomeBlock.bind(this));
+    expensesAdd.addEventListener(`click`, () => {
+      this.addExpIncBlocks(expensesItems, expensesAdd);
+
+    });
+    incomeAdd.addEventListener(`click`, () => {
+      this.addExpIncBlocks(incomeItems, incomeAdd);
+
+    });
     periodSelect.addEventListener(`input`, this.getInfoPeriod);
     this.getValidateTextInput();
     this.getValidateNumberInput();
