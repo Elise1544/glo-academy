@@ -49,7 +49,7 @@ class AppData {
   reset() {
     this.getUnblockInputs();
 
-    allInputs.forEach(function (allInput) {
+    allInputs.forEach( (allInput) => {
       allInput.value = ``;
     });
 
@@ -91,7 +91,7 @@ class AppData {
   addExpensesBlock() {
     let cloneExpensesItem = expensesItems[0].cloneNode(true);
     expensesItems[0].parentNode.insertBefore(cloneExpensesItem, expensesAdd);
-    cloneExpensesItem.querySelectorAll(`input`).forEach(function (element) {
+    cloneExpensesItem.querySelectorAll(`input`).forEach( (element) => {
       element.value = ``;
     });
     expensesItems = document.querySelectorAll(`.expenses-items`);
@@ -107,7 +107,7 @@ class AppData {
   addIncomeBlock() {
     let cloneIncomeItem = incomeItems[0].cloneNode(true);
     incomeItems[0].parentNode.insertBefore(cloneIncomeItem, incomeAdd);
-    cloneIncomeItem.querySelectorAll(`input`).forEach(function (element) {
+    cloneIncomeItem.querySelectorAll(`input`).forEach( (element) => {
       element.value = ``;
     });
     incomeItems = document.querySelectorAll(`.income-items`);
@@ -198,7 +198,7 @@ class AppData {
   };
   getValidateTextInput() {
     let titleInputs = document.querySelectorAll(`*[placeholder="Наименование"]`);
-    titleInputs.forEach(function (element) {
+    titleInputs.forEach( (element) => {
       element.addEventListener(`input`, function () {
         element.value = element.value.replace(/[^А-я-\s\,\?\.\!]/, ``);
       });
@@ -206,14 +206,14 @@ class AppData {
   };
   getValidateNumberInput() {
     let numberInputs = document.querySelectorAll(`*[placeholder="Сумма"]`);
-    numberInputs.forEach(function (element) {
+    numberInputs.forEach( (element) => {
       element.addEventListener(`input`, function () {
         element.value = element.value.replace(/[^0-9]/, ``);
       });
     });
   };
   getBlockInputs() {
-    textInputs.forEach(function (textInput) {
+    textInputs.forEach( (textInput) => {
       textInput.disabled = true;
     });
     incomeAdd.disabled = true;
@@ -223,7 +223,7 @@ class AppData {
     resetButton.style.display = `block`;
   };
   getUnblockInputs() {
-    allInputs.forEach(function (allInput) {
+    allInputs.forEach( (allInput) => {
       allInput.disabled = false;
     });
     incomeAdd.disabled = false;
